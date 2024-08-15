@@ -41,17 +41,17 @@ ___
 ![Ventas](./Img/PC35.png)
 
 ### Pings Entre Los Hosts
-#### 1. Ping PC11 Nivel 1 A PC34 Nivel 3
+#### 1. Ping PC11 Administración Nivel 1 A PC34 TI Nivel 3
 ![Ping PC11 a PC34](./Img/Ping11_34.png)
 
-#### 2. Ping PC25 Nivel 2 A PC18 Nivel 1
+#### 2. Ping PC25 Oficina B Nivel 2 A PC18 RRHH Nivel 1
 ![Ping PC25 a PC18](./Img/Ping25_18.png)
 
-#### 3. Ping PC32 Nivel 3 Con PC16 Nivel 1
-![Ping PC32 a PC16](./Img/Ping32_16.png)
+#### 3. Ping PC31 Recepción Nivel 3 Con PC14 Atención Al Cliente Nivel 1
+![Ping PC31 a PC14](./Img/Ping31_14.png)
 
-#### 4. Ping PC33 Nivel 3 Con PC210 Nivel 2
-![Ping PC33 a PC210](./Img/Ping33_210.png)
+#### 4. Ping PC12 Secretaría/Gerencia Nivel 1 Con PC210 Oficina C Nivel 2
+![Ping PC12 a PC210](./Img/Ping12_210.png)
 
-#### 5. Ping PC212 Nivel 2 Con PC32 Nivel 3
-![Ping PC212 a PC32](./Img/Ping212_32.png)
+#### 5. Ping PC22 Oficina A Nivel 2 Con PC35 Ventas Nivel 3
+![Ping PC22 a PC35](./Img/Ping22_35.png)
