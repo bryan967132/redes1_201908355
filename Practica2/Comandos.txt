@@ -1,0 +1,263 @@
+1. El enlace entre R1 y R4 debe ser del tipo Serial.
+================ R1 ================
+enable
+configure terminal
+no ip domain-lookup
+hostname R1
+
+interface se0/0
+ip add 10.0.0.1 255.255.255.252
+no shutdown
+
+interface f0/0
+ip add 152.168.1.2 255.255.255.248
+no shutdown
+
+interface fa0/1
+ip add 152.168.2.2 255.255.255.248
+no shutdown
+
+exit
+exit
+
+================ R4 ================
+enable
+configure terminal
+no ip domain-lookup
+hostname R4
+
+interface se0/0
+ip add 10.0.0.2 255.255.255.252
+no shutdown
+
+interface f0/0
+ip add 152.178.1.1 255.255.255.248
+no shutdown
+
+interface fa0/1
+ip add 152.178.2.1 255.255.255.248
+no shutdown
+
+exit
+exit
+
+2. Configurar PortChannel con PAGP en la pareja de switches SW0-SW1 y con LACP en la pareja de switches SW2-SW3.
+2.1. PAGP en la pareja de switches SW0-SW1.
+================ SW0 ================
+enable
+configure terminal
+interface range fa0/1-2
+channel-group 1 mode desirable
+exit
+interface port-channel 1 
+switchport mode trunk
+end
+wr
+exit
+
+================ SW1 ================
+enable
+configure terminal
+interface range fa0/1-2
+channel-group 1 mode desirable
+exit
+interface port-channel 1 
+switchport mode trunk
+end
+wr
+exit
+
+2.2. LACP en la pareja de switches SW2-SW3.
+================ SW2 ================
+enable
+configure terminal
+interface range fa0/1-2
+channel-group 1 mode active
+exit
+interface port-channel 1
+switchport mode trunk
+end
+wr
+exit
+
+================ SW3 ================
+enable
+configure terminal
+interface range fa0/1-2
+channel-group 1 mode active
+exit
+interface port-channel 1
+switchport mode trunk
+end
+wr
+exit
+
+3. Configurar HSRP en la pareja de routers R2-R3 y GLBP en la pareja de routers R5-R6.
+3.1. HSRP en la pareja de routers R2-R3.
+================ R2 ================
+enable
+configure terminal
+no ip domain-lookup
+hostname R2
+
+interface fa0/1
+ip add 152.168.0.2 255.255.255.0
+standby 1 ip 152.168.0.1
+standby 1 priority 150
+standby 1 preempt
+no shutdown
+
+interface f0/0
+ip add 152.168.1.1 255.255.255.248
+no shutdown
+
+exit
+exit
+exit
+
+================ R3 ================
+enable
+configure terminal
+no ip domain-lookup
+hostname R3
+
+interface fa0/1
+ip add 152.168.0.3 255.255.255.0
+standby 1 ip 152.168.0.1
+no shutdown
+
+interface f0/0
+ip add 152.168.2.1 255.255.255.248
+no shutdown
+
+exit
+exit
+exit
+
+3.2. GLBP en la pareja de routers R5-R6.
+================ R5 ================
+enable
+configure terminal
+no ip domain-lookup
+hostname R5
+
+interface fa0/1
+ip add 152.178.0.2 255.255.255.0
+standby 2 ip 152.178.0.1
+standby 2 priority 150
+standby 2 preempt
+no shutdown
+
+interface f0/0
+ip add 152.178.1.2 255.255.255.248
+no shutdown
+
+exit
+exit
+exit
+
+================ R6 ================
+enable
+configure terminal
+no ip domain-lookup
+hostname R6
+
+interface fa0/1
+ip add 152.178.0.3 255.255.255.0
+standby 2 ip 152.178.0.1
+no shutdown
+
+interface f0/0
+ip add 152.178.2.2 255.255.255.248
+no shutdown
+
+exit
+exit
+exit
+
+4. Configurar las rutas estáticas necesarias para garantizar la comunicación en ambas vías entre VPC11, VPC13, VPC12 y VPC14.
+================ R1 ================
+enable
+conf t
+ip route 152.168.0.0 255.255.255.0 152.168.1.1
+ip route 152.168.0.0 255.255.255.0 152.168.2.1
+ip route 152.168.1.0 255.255.255.248 152.168.1.1
+ip route 152.168.2.0 255.255.255.248 152.168.2.1
+ip route 10.0.0.0 255.255.255.252 10.0.0.2
+ip route 152.178.1.0 255.255.255.248 10.0.0.2
+ip route 152.178.2.0 255.255.255.248 10.0.0.2
+ip route 152.178.0.0 255.255.255.0 10.0.0.2
+do w
+exit
+exit
+
+================ R2 ================
+enable
+conf t
+ip route 152.168.1.0 255.255.255.248 152.168.1.2
+ip route 152.168.2.0 255.255.255.248 152.168.1.2
+ip route 10.0.0.0 255.255.255.252 152.168.1.2
+ip route 152.178.1.0 255.255.255.248 152.168.1.2
+ip route 152.178.2.0 255.255.255.248 152.168.1.2
+ip route 152.178.0.0 255.255.255.0 152.168.1.2
+do w
+exit
+exit
+
+================ R3 ================
+enable
+conf t
+ip route 152.168.2.0 255.255.255.248 152.168.2.2
+ip route 152.168.1.0 255.255.255.248 152.168.2.2
+ip route 10.0.0.0 255.255.255.252 152.168.2.2
+ip route 152.178.1.0 255.255.255.248 152.168.2.2
+ip route 152.178.2.0 255.255.255.248 152.168.2.2
+ip route 152.178.0.0 255.255.255.0 152.168.2.2
+do w
+exit
+exit
+
+================ R4 ================
+enable
+conf t
+ip route 152.178.0.0 255.255.255.0 152.178.2.2
+ip route 152.178.0.0 255.255.255.0 152.178.1.2
+ip route 152.178.1.0 255.255.255.248 152.178.1.2
+ip route 152.178.2.0 255.255.255.248 152.178.2.2
+ip route 10.0.0.0 255.255.255.252 10.0.0.1
+ip route 152.168.0.0 255.255.255.0 10.0.0.1
+ip route 152.168.1.0 255.255.255.248 10.0.0.1
+ip route 152.168.2.0 255.255.255.248 10.0.0.1
+do w
+exit
+exit
+
+================ R5 ================
+enable
+conf t
+ip route 152.178.1.0 255.255.255.248 152.178.1.1 
+ip route 152.178.2.0 255.255.255.248 152.178.1.1 
+ip route 152.168.0.0 255.255.255.0 152.178.1.1 
+ip route 152.168.1.0 255.255.255.248 152.178.1.1 
+ip route 152.168.2.0 255.255.255.248 152.178.1.1 
+ip route 10.0.0.0 255.255.255.252 152.178.1.1
+do w
+exit
+exit
+
+================ R6 ================
+enable
+conf t
+ip route 152.178.2.0 255.255.255.248 152.178.2.1
+ip route 152.178.1.0 255.255.255.248 152.178.2.1
+ip route 10.0.0.0 255.255.255.252 152.178.2.1
+ip route 152.168.0.0 255.255.255.0 152.178.2.1
+ip route 152.168.1.0 255.255.255.248 152.178.2.1
+ip route 152.168.2.0 255.255.255.248 152.178.2.1
+do w
+exit
+exit
+
+===================
+enable
+show running-config
