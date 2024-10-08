@@ -175,12 +175,12 @@ no shutdown
 ```
 
 ### Configuración De VPC
-| VPC | IP | Máscara de Subred | Puerta de Enlace |
+| VPC | IP | Puerta de Enlace | Máscara de Subred |
 | - | - | - | - |
-| VPC11 | `152.168.0.4` | `/24` | `152.168.0.1` |
-| VPC12 | `152.178.0.4` | `/24` | `152.178.0.1` |
-| VPC13 | `152.168.0.5` | `/24` | `152.168.0.1` |
-| VPC14 | `152.178.0.5` | `/24` | `152.178.0.1` |
+| VPC11 | `152.168.0.4` | `152.168.0.1` | `255.255.255.0` |
+| VPC13 | `152.168.0.5` | `152.168.0.1` | `255.255.255.0` |
+| VPC12 | `152.178.0.4` | `152.178.0.1` | `255.255.255.0` |
+| VPC14 | `152.178.0.5` | `152.178.0.1` | `255.255.255.0` |
 
 ### Comandos De Verificación
 * Para ver la configuración general de un dispositivo (router o switch)
