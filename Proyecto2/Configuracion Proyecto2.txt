@@ -1,0 +1,117 @@
+Configuración Modo Troncal
+
+Para ESW1, ESW2, ESW3, ESW4
+enable
+configure terminal
+interface range fa0/interfaz
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan all
+do wr
+
+Para SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8
+enable
+configure terminal
+interface fa0/interfaz
+switchport mode trunk
+switchport trunk allowed vlan all
+do wr
+
+Configuración VTP
+
+Configuración Servidores
+Para ESW1, ESW2, ESW3, ESW4
+enable
+configure terminal
+vtp mode server
+vtp domain P15
+vtp password usac
+vtp version 2
+do wr
+
+Configuración Clientes
+Para SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8
+enable
+configure terminal
+vtp mode client
+vtp domain P15
+vtp password usac
+do wr
+
+Configuración RSTP-rpid pvst
+En todos los switches
+
+enable
+configure terminal
+spanning-tree mode rapid-pvst
+do wr
+
+LACP SW2-SW3 (Port-channel 1)
+enable
+configure terminal
+interface range fa0/2-3
+channel-group 1 mode active
+exit
+interface port-channel 1
+switchport mode trunk
+do wr
+
+Configurar IP de cada interfaz que esta conectada en cada router
+Para router CENTRAL, JUTIAPA, ESCUINTLA, IZABAL, PETEN, QUICHE J1 y J2
+enable
+configure terminal
+hostname [nombre del router]
+interface [numero de interfaz]
+ip address [IP] [Mascara de subred]
+no shutdown
+
+Se configuro HSRP en J1 y J2
+Configurando J1 como activo y J2 como standby
+J1
+enable
+configure terminal
+interface fa1/0
+ip address 192.168.15.1 255.255.255.0
+standby 1 ip 192.168.15.1
+standby 1 priority 150
+standby 1 preeempt
+no shutdown
+do wr
+
+J2
+enable
+configure terminal
+interface fa1/0
+ip address 192.168.15.1 255.255.255.0
+standby 1 ip 192.168.15.1
+no shutdown
+do wr
+
+Configuración OSPF
+Router Central
+enable
+configure terminal
+router ospf 10
+network [IP network] [wildcard] área 0
+do wr
+
+Configuración EIGRP
+Para Router Izabal, Peten y Quiche
+enable
+configure terminal
+router eigrp 10
+network [IP network] [wildcard]
+redistribute rip metric 25600 1010 255 255 1500
+do wr
+
+Configuración RIP
+Para Router Jutiapa, Escuintla, J1 y J2
+router rip
+versión 2
+network [IP network]
+redistribute eigrp 10 metric 2
+do wr
+
+
+
+
