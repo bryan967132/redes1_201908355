@@ -112,6 +112,215 @@ network [IP network]
 redistribute eigrp 10 metric 2
 do wr
 
+enable
+configure terminal
+vlan 57
+name DB_SERVER
+exit
+vlan 67
+name Management_Server
+exit
+vlan 77
+name File_Server
+exit
+exit
+wr
+show vlan
 
+enable
+configure terminal
+vlan 17
+name RRHH
+exit
+vlan 27
+name Contabilidad
+exit
+vlan 37
+name Ventas
+exit
+vlan 47
+name Informatica
+exit
+exit
+wr
+show vlan
 
+enable
+configure terminal
+vlan 17
+name RRHH
+exit
+vlan 27
+name Contabilidad
+exit
+exit
+wr
+show vlan
 
+enable
+configure terminal
+vlan 37
+name Ventas
+exit
+exit
+wr
+show vlan
+
+ACCESOS
+
+JUTIAPA
+
+SW2
+
+enable
+configure terminal
+interface range fa0/11-12
+switchport mode access
+switchport access vlan 17
+exit
+interface fa0/13
+switchport mode access
+switchport access vlan 27
+exit
+exit
+wr
+show interface status
+
+SW3
+
+enable
+configure terminal
+interface range fa0/11-12
+switchport mode access
+switchport access vlan 37
+exit
+interface fa0/13
+switchport mode access
+switchport access vlan 47
+exit
+exit
+wr
+show interface status
+
+ESCUINTLA
+
+SW5
+
+enable
+configure terminal
+interface fa0/11
+switchport mode access
+switchport access vlan 17
+exit
+interface fa0/12
+switchport mode access
+switchport access vlan 37
+exit
+exit
+wr
+show interface status
+
+IZABAL
+
+SW7
+
+enable
+configure terminal
+interface fa0/11
+switchport mode access
+switchport access vlan 17
+exit
+interface fa0/12
+switchport mode access
+switchport access vlan 27
+exit
+exit
+wr
+show interface status
+
+PETEN
+
+SW6
+
+enable
+configure terminal
+interface fa0/11
+switchport mode access
+switchport access vlan 37
+exit
+interface fa0/12
+switchport mode access
+switchport access vlan 17
+exit
+interface fa0/13
+switchport mode access
+switchport access vlan 47
+exit
+exit
+wr
+show interface status
+
+QUICHE
+
+SW1
+
+enable
+configure terminal
+interface range fa0/11-12
+switchport mode access
+switchport access vlan 17
+exit
+interface range fa0/13-14
+switchport mode access
+switchport access vlan 27
+exit
+exit
+wr
+show interface status
+
+SW4
+
+enable
+configure terminal
+interface range fa0/11-12
+switchport mode access
+switchport access vlan 37
+exit
+interface fa0/13
+switchport mode access
+switchport access vlan 47
+exit
+exit
+wr
+show interface status
+
+ESW4
+
+enable
+configure terminal
+interface fa0/11
+switchport mode access
+switchport access vlan 47
+exit
+exit
+wr
+show interface status
+
+SW8
+
+configure terminal
+interface fa0/11
+switchport mode access
+switchport access vlan 57
+exit
+interface fa0/12
+switchport mode access
+switchport access vlan 67
+exit
+interface fa0/13
+switchport mode access
+switchport access vlan 77
+exit
+exit
+wr
+show interface status
